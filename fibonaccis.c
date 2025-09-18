@@ -17,7 +17,16 @@ static error_t print_fibonacci(const vector_t(string_t) fibonaccis) {
     CATCH_EXIT;
 }
 
-error_t main(void) {
+error_t main(int argc, char** argv) {
+    if (argc > 1) {
+        if (!strcmp(argv[1], "--abort")) {
+            THROW_ABORT;
+        }
+        else if (!strcmp(argv[1], "--alloc")) {
+            THROW_ALLOC(char**);
+        }
+    }
+
     vector_t(string_t) fibonaccis = vec_new();
     
     CATCH_ENTER;

@@ -46,10 +46,12 @@ typedef int error_t;
     while (0)
 
 #ifdef C_STD_THROW_MESSAGE
+#include <stdio.h>
 static char error_msg[ERROR_MSG_SIZE];
 #define ERROR_MSG_BUF error_msg
-#define THROW_ABORT abort()
-#define THROW_ALLOC(T) fprintf(stderr, "failed to allocate %zu bytes for %s", sizeof(T), #T)
+#define THROW_PANIC(X, ...) (fprintf(stderr, X " at %s:%i in %s\n", __VA_ARGS__, __func__, __LINE__, __FILE__), abort())
+#define THROW_ABORT THROW_PANIC("failed (%s)", "abort")
+#define THROW_ALLOC(T) THROW_PANIC("failed to allocate %zu bytes for %s", sizeof(T), #T)
 #define THROW_MESSAGE(X, ...) THROW_ERROR(X, fprintf(stderr, ERROR_MSG_BUF), __VA_ARGS__)
 #endif
 
