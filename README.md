@@ -9,7 +9,7 @@ It powers my C compiler [wheelcc](https://github.com/romainducrocq/wheelcc) writ
 Add `#include "c_std.h"` in your project  
 - and build in C with:
 ```
-gcc -std=c17 -Wall -Wextra -Werror -Wpedantic -pedantic-errors -Ilib/ main.c -o main
+gcc -std=c17 -Wall -Wextra -Werror -Wpedantic -pedantic-errors -Ilib/ lib/sds/sds.c lib/stb_ds/stb_ds.c main.c -o main
 ``` 
 - or in C++ with:
 ```
