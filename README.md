@@ -1,6 +1,6 @@
 ## A small C library for common utilities
 
-A minimal standard lib for ISO C17 and C++17 tested on gcc/clang. It wraps some widely used open-source libraries (with patches) in a convenient macro-based API and provides support for dynamic strings, dynamic arrays, hashmaps, hashsets, memory and filesystem operations.  
+A minimal standard lib for ISO C17 and C++17 tested on gcc/clang. It wraps some widely used open-source libraries (with patches) in a convenient macro-based API and provides support for dynamic strings, dynamic arrays, hashmaps, hashsets, error handling, memory and filesystem operations.  
 <!---->
 It powers my C compiler [wheelcc](https://github.com/romainducrocq/wheelcc) written in C from scratch. <ins>See this project for code examples</ins>.
 
