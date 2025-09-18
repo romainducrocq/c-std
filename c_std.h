@@ -7,7 +7,11 @@
 #include <stdbool.h>
 #include <stddef.h>
 #if 0
+#include "tinydir/tinydir.h"
+#include <assert.h>
+#include <errno.h>
 #include <limits.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
