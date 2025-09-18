@@ -52,7 +52,7 @@ static char _error_msg[ERROR_MSG_SIZE];
 #define PANIC_FUNC(X, ...) (fprintf(stderr, X " at %s:%i in %s\n", __VA_ARGS__), abort())
 #define THROW_ABORT THROW_PANIC("failed (abort)")
 #define THROW_ALLOC(T) THROW_PANIC("failed to allocate %zu bytes for %s", sizeof(T), #T)
-#define THROW_MESSAGE(X, ...) THROW_ERROR(X, fprintf(stderr, ERROR_MSG_BUF), __VA_ARGS__)
+#define THROW_MESSAGE(X, ...) THROW_ERROR(X, fprintf(stderr, "%s\n", ERROR_MSG_BUF), __VA_ARGS__)
 #endif
 
 #define THROW_PANIC(...) PANIC_FUNC(__VA_ARGS__, __func__, __LINE__, __FILE__)

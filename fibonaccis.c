@@ -9,7 +9,7 @@ static error_t print_fibonacci(const vector_t(string_t) fibonaccis) {
     printf("The first %zu fibonacci numbers are:\n", vec_size(fibonaccis));
     for (size_t i = 0; i < vec_size(fibonaccis); ++i) {
         if (!str_size(fibonaccis[i])) {
-            THROW_MESSAGE(1, "... oops i don't know the #%zuth number!\n", i + 1);
+            THROW_MESSAGE(1, "... oops i don't know the #%zuth number!", i + 1);
         }
         printf("  - #%zu: %s\n", i + 1, fibonaccis[i]);
     }
