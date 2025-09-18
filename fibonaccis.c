@@ -28,7 +28,7 @@ int main(void) {
     push_string(&fibonaccis, str_new("Four thousand one hundred eighty-one"));
     push_string(&fibonaccis, str_new("Six thousand seven hundred sixty-five"));
 
-    printf("The first 20 fibonacci numbers are:\n");
+    printf("The first %zu fibonacci numbers are:\n", vec_size(fibonaccis));
     for (size_t i = 0; i < vec_size(fibonaccis); ++i) {
         printf("  - #%zu: %s\n", i + 1, fibonaccis[i]);
         str_delete(fibonaccis[i]);
