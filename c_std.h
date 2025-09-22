@@ -6,8 +6,12 @@
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stddef.h>
-#if 0
+#ifdef C_STD_INCLUDE_ALL
+#include "tinydir/tinydir.h"
+#include <assert.h>
+#include <errno.h>
 #include <limits.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +26,47 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Errors
+
+typedef int error_t;
+#define ERROR_MSG_SIZE 1024
+
+#define CATCH_ENTER error_t _errval = 0
+#define CATCH_EXIT return _errval
+#define EARLY_EXIT goto _Lfinally
+#define FINALLY \
+    _Lfinally:
+#define TRY(X)              \
+    do {                    \
+        _errval = X;        \
+        if (_errval != 0) { \
+            EARLY_EXIT;     \
+        }                   \
+    }                       \
+    while (0)
+
+#ifdef C_STD_THROW_MESSAGE
+#include <stdio.h>
+static char _error_msg[ERROR_MSG_SIZE];
+#define ERROR_MSG_BUF _error_msg
+#define PANIC_FUNC(X, ...) (fprintf(stderr, X " at %s:%i in %s\n", __VA_ARGS__), abort())
+#define THROW_ABORT THROW_PANIC("failed (abort)")
+#define THROW_ALLOC(T) THROW_PANIC("failed to allocate %zu bytes for %s", sizeof(T), #T)
+#define THROW_MESSAGE(X, ...) THROW_ERROR(X, fprintf(stderr, "%s\n", ERROR_MSG_BUF), __VA_ARGS__)
+#endif
+
+#define THROW_PANIC(...) PANIC_FUNC(__VA_ARGS__, __func__, __LINE__, __FILE__)
+#define SET_ERROR_MSG(...) snprintf(ERROR_MSG_BUF, sizeof(char) * ERROR_MSG_SIZE, __VA_ARGS__)
+#define THROW_ERROR(X, Y, ...)                                  \
+    do {                                                        \
+        SET_ERROR_MSG(__VA_ARGS__) > 0 ? (void)Y : THROW_ABORT; \
+        _errval = X;                                            \
+        EARLY_EXIT;                                             \
+    }                                                           \
+    while (0)
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 // Memory
 
 #define tagged_def_t(E, T) E##_##T##_t
@@ -32,9 +77,6 @@
 #else
 #define tagged_def_init(E, T1, T2) \
     (T1) { tagged_def_t(E, T2) }
-#endif
-#if 0
-#define THROW_ALLOC(T) fprintf(stderr, "failed to allocate %zu bytes for %s", sizeof(T), #T)
 #endif
 
 #define unique_ptr_t(T) T*
